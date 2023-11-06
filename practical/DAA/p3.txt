@@ -1,0 +1,41 @@
+Code : 
+public static void knapSack(int val[], int wt[], int maxW){
+        double ratio[][] = new double[val.length][2];
+
+        for(int i=0; i<val.length; i++){
+            ratio[i][0] = i;    // store idx
+            ratio[i][1] = (double)(val[i]/wt[i]);
+        }
+
+        // sort 
+        Arrays.sort(ratio, Comparator.comparingDouble(o -> o[1]));
+
+        int capacity = maxW;
+        int finalVal = 0;
+        for(int i=ratio.length-1; i>=0; i--){
+            int idx = (int)ratio[i][0];
+            if(capacity >= wt[idx]){
+                // include total item
+                finalVal += val[idx];
+                capacity -= wt[idx];
+            }else{
+                // include fractional item
+                finalVal += (ratio[i][1]*capacity);
+                capacity = 0;
+                break;
+            }
+        }
+        System.out.println("Maximum value that can be obtainted : " + finalVal);
+    }
+
+
+
+    public static void main(String[] args) {
+        int values[] = {100, 60, 120};
+        int weight[] = {20, 10, 30};
+        int maxW = 50;
+        knapSack(values, weight, maxW);
+    }
+
+Output : 
+Maximum value that can be obtainted : 240
